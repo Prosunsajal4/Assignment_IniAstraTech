@@ -76,7 +76,36 @@ Example test accounts:
 
 ## Live Demo Link
 
-- Add your deployed demo link here.
+- Frontend: https://frontend-beige-nu-57.vercel.app
+- Backend API: https://backend-gray-gamma.vercel.app
+- API Health: https://backend-gray-gamma.vercel.app/api/health
+
+## Production Notes
+
+- Frontend uses deployed backend URL by default:
+  - `https://backend-gray-gamma.vercel.app`
+- Backend is configured for Vercel serverless deployment:
+  - Exports Express app from `Backend/index.js`
+  - Uses `Backend/vercel.json` for routing
+- MongoDB connection is request-safe for serverless cold starts:
+  - Connection promise is cached in `Backend/db/connection.js`
+  - Each request ensures DB connection before route handlers run
+
+## Deployment (Vercel)
+
+### 1. Deploy Backend
+
+```bash
+cd Backend
+vercel --prod --yes -e CORS_ORIGIN="*"
+```
+
+### 2. Deploy Frontend
+
+```bash
+cd frontend
+vercel --prod --yes -e NEXT_PUBLIC_API_URL="https://backend-gray-gamma.vercel.app"
+```
 
 ## Slot Conflict Handling
 
